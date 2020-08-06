@@ -13,10 +13,9 @@ namespace Shared.Clients
             : base(new Uri(configuration.GetServiceUri("appone"), "/AppOneHub"), hostApplicationLifetime)
         { }
 
-        public async Task DoFooAsync()
+        public async Task DoFooAsync(IAsyncEnumerable<int> dataStream)
         {
-            await HubConnection.SendAsync("DoFoo");
+            await HubConnection.SendAsync("DoFoo", dataStream);
         }
-
     }
 }
