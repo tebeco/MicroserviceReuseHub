@@ -41,18 +41,27 @@ namespace ClientApp
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Calling DoFoo");
-                await _appOneClient.DoFooAsync(generateDataStream());
+                var receivedStream = _appOneClient.DoFooAsync(GenerateDataStream());
+                await EnumerateStream(receivedStream);
                 await Task.Delay(4000);
             }
+        }
 
-            async IAsyncEnumerable<int> generateDataStream()
+        public async IAsyncEnumerable<int> GenerateDataStream()
+        {
+            for (var i = 0; i < 5; i++)
             {
-                for (var i = 0; i < 5; i++)
-                {
-                    yield return i;
-                    await Task.Delay(500);
-                }
-                //After the for loop has completed and the local function exits the stream completion will be sent.
+                yield return i;
+                await Task.Delay(500);
+            }
+            //After the for loop has completed and the local function exits the stream completion will be sent.
+        }
+
+        private async Task EnumerateStream(IAsyncEnumerable<int> receivedStream)
+        {
+            await foreach (var i in receivedStream)
+            {
+                _logger.LogInformation("Received back: {item}", i);
             }
         }
     }
