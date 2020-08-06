@@ -37,7 +37,7 @@ namespace AppTwo.Hubs
             await Clients.All.SendAsync("Bar");
         }
 
-        public async Task Kix(IAsyncEnumerable<string> stream)
+        public async Task Kix(IAsyncEnumerable<int> stream)
         {
             await foreach (var item in stream)
             {
