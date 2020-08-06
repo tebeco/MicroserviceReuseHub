@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AppTwo.Hubs
@@ -34,6 +35,14 @@ namespace AppTwo.Hubs
         {
             _logger.LogInformation("Doing 'Bar'");
             await Clients.All.SendAsync("Bar");
+        }
+
+        public async Task Kix(IAsyncEnumerable<string> stream)
+        {
+            await foreach (var item in stream)
+            {
+                _logger.LogInformation("kix : {i}", item);
+            }
         }
     }
 }
