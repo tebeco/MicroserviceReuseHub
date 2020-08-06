@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
@@ -18,9 +19,9 @@ namespace Shared.Clients
             await HubConnection.SendAsync("DoBar");
         }
 
-        public async Task StreamKixAsync(IAsyncEnumerable<int> dataStream)
+        public IAsyncEnumerable<int> StreamKixAsync(IAsyncEnumerable<int> dataStream)
         {
-            await HubConnection.SendAsync("Kix", dataStream);
+            return HubConnection.StreamAsync<int>("Kix", dataStream);
         }
     }
 }

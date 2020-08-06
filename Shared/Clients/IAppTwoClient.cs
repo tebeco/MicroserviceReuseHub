@@ -7,6 +7,6 @@ namespace Shared.Clients
     {
         Task DoBarAsync();
 
-        Task StreamKixAsync(IAsyncEnumerable<int> dataStream);
+        IAsyncEnumerable<int> StreamKixAsync(IAsyncEnumerable<int> dataStream);
     }
 }

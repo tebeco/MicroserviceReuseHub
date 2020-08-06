@@ -7,6 +7,6 @@ namespace Shared.Clients
 {
     public interface IAppOneClient : IAppClient
     {
-        Task DoFooAsync(IAsyncEnumerable<int> dataStream);
+        IAsyncEnumerable<int> DoFooAsync(IAsyncEnumerable<int> dataStream);
     }
 }
