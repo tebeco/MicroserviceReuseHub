@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shared.Clients;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AppOne.Hubs
@@ -36,7 +37,19 @@ namespace AppOne.Hubs
         {
             _logger.LogInformation("Doing 'Foo'");
             await Clients.All.SendAsync("DoingFoo");
-            await _appTwoClient.DoBarAsync();
+            //await _appTwoClient.DoBarAsync();
+
+            await _appTwoClient.StreamKixAsync(clientStreamData());
+            async IAsyncEnumerable<int> clientStreamData()
+            {
+                for (var i = 0; i < 5; i++)
+                {
+                    yield return i;
+                    await Task.Delay(500);
+                }
+                //After the for loop has completed and the local function exits the stream completion will be sent.
+            }
+
         }
     }
 }
