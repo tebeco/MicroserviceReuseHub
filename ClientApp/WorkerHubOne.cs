@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -40,8 +41,18 @@ namespace ClientApp
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Calling DoFoo");
-                await _appOneClient.DoFooAsync();
+                await _appOneClient.DoFooAsync(generateDataStream());
                 await Task.Delay(4000);
+            }
+
+            async IAsyncEnumerable<int> generateDataStream()
+            {
+                for (var i = 0; i < 5; i++)
+                {
+                    yield return i;
+                    await Task.Delay(500);
+                }
+                //After the for loop has completed and the local function exits the stream completion will be sent.
             }
         }
     }
