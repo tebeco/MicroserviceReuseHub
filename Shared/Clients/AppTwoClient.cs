@@ -9,12 +9,7 @@ namespace Shared.Clients
     public class AppTwoClient : AppClientBase, IAppTwoClient
     {
         public AppTwoClient(IConfiguration configuration, IHostApplicationLifetime hostApplicationLifetime)
-            : base(
-                  new Uri(
-                      configuration.GetServiceUri("apptwo") ?? null,// new Uri("https://localhost:5003/"),
-                      "/AppTwoHub"
-                      ),
-                  hostApplicationLifetime)
+            : base(new Uri(configuration.GetServiceUri("apptwo"), "/AppTwoHub"), hostApplicationLifetime)
         { }
 
         public async Task DoBarAsync()

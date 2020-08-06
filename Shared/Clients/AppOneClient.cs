@@ -9,12 +9,7 @@ namespace Shared.Clients
     public class AppOneClient : AppClientBase, IAppOneClient
     {
         public AppOneClient(IConfiguration configuration, IHostApplicationLifetime hostApplicationLifetime)
-            : base(
-                  new Uri(
-                      configuration.GetServiceUri("appone") ?? null,// new Uri("https://localhost:5001/"),
-                      "/AppOneHub"
-                      ),
-                  hostApplicationLifetime)
+            : base(new Uri(configuration.GetServiceUri("appone"), "/AppOneHub"), hostApplicationLifetime)
         { }
 
         public async Task DoFooAsync()
