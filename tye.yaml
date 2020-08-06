@@ -10,3 +10,5 @@ services:
   project: AppOne/AppOne.csproj
 - name: apptwo
   project: AppTwo/AppTwo.csproj
+- name: clientapp
+  project: ClientApp/ClientApp.csproj

@@ -1,0 +1,19 @@
+﻿{
+  "profiles": {
+    "ClientApp": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        
+        "SERVICE__APPONE__PROTOCOL": "https",
+        "SERVICE__APPONE__HOST": "localhost",
+        "SERVICE__APPONE__PORT": "5001",
+
+        "SERVICE__APPTWO__PROTOCOL": "https",
+        "SERVICE__APPTWO__HOST": "localhost",
+        "SERVICE__APPTWO__PORT": "5003"
+
+      }
+    }
+  }
+}
