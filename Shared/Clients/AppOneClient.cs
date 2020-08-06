@@ -27,6 +27,7 @@ namespace Shared.Clients
                 for (var i = 0; i < 5; i++)
                 {
                     yield return i;
+                    await Task.Delay(1000);
                 }
                 //After the for loop has completed and the local function exits the stream completion will be sent.
             }
