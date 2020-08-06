@@ -33,13 +33,21 @@ namespace AppOne.Hubs
             return Task.CompletedTask;
         }
 
-        public async Task DoFoo(IAsyncEnumerable<int> stream)
+        public async Task<IAsyncEnumerable<int>> DoFoo(IAsyncEnumerable<int> stream)
         {
             _logger.LogInformation("Doing 'Foo'");
             await Clients.All.SendAsync("DoingFoo");
             //await _appTwoClient.DoBarAsync();
 
-            await _appTwoClient.StreamKixAsync(stream);
+            return _appTwoClient.StreamKixAsync(stream);
+
+            //async IAsyncEnumerable<int> internalIterate(IAsyncEnumerable<int> stream)
+            //{
+            //    await foreach (var i in stream)
+            //    {
+            //        yield return i;
+            //    }
+            //}
         }
     }
 }
