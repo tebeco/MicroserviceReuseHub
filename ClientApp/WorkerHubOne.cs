@@ -37,14 +37,12 @@ namespace ClientApp
                 _logger.LogInformation("The hub is doing Foo");
             });
 
-            await _appOneClient.StartKixAsync(_appTwoClient.HubConnection);
-
-            //while (!stoppingToken.IsCancellationRequested)
-            //{
-            //    _logger.LogInformation("Calling DoFoo");
-            //    await _appOneClient.DoFooAsync();
-            //    await Task.Delay(1000);
-            //}
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                _logger.LogInformation("Calling DoFoo");
+                await _appOneClient.DoFooAsync();
+                await Task.Delay(4000);
+            }
         }
     }
 }
