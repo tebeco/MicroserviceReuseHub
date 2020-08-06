@@ -37,8 +37,8 @@ namespace AppOne.Hubs
         {
             _logger.LogInformation("Doing 'Foo'");
             await Clients.All.SendAsync("DoingFoo");
-            //await _appTwoClient.DoBarAsync();
 
+            await _appTwoClient.StartAsync();
             return _appTwoClient.StreamKixAsync(stream);
 
             //async IAsyncEnumerable<int> internalIterate(IAsyncEnumerable<int> stream)

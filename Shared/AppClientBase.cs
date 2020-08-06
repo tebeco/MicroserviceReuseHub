@@ -28,12 +28,18 @@ namespace Shared
 
             try
             {
+                if (HubConnection.State == HubConnectionState.Connected)
+                    return;
+
                 await HubConnection.StartAsync();
 
                 if (_hostApplicationLifetime.ApplicationStopping.IsCancellationRequested || _hostApplicationLifetime.ApplicationStopped.IsCancellationRequested)
                     _hubConnectionConnected.SetCanceled();
                 else
-                    _hubConnectionConnected.SetResult(0);
+                {
+                    if (!_hubConnectionConnected.Task.IsCompleted)
+                        _hubConnectionConnected.SetResult(0);
+                }
             }
             catch (Exception ex)
             {
