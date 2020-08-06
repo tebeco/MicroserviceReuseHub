@@ -18,19 +18,5 @@ namespace Shared.Clients
             await HubConnection.SendAsync("DoFoo");
         }
 
-        public async Task StartKixAsync(HubConnection hubConnection)
-        {
-            await hubConnection.SendAsync("Kix", clientStreamData());
-
-            async IAsyncEnumerable<int> clientStreamData()
-            {
-                for (var i = 0; i < 5; i++)
-                {
-                    yield return i;
-                    await Task.Delay(1000);
-                }
-                //After the for loop has completed and the local function exits the stream completion will be sent.
-            }
-        }
     }
 }
