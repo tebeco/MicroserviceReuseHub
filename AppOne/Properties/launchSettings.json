@@ -9,21 +9,28 @@
     }
   },
   "profiles": {
+    "AppOne": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+
+        "SERVICE__APPTWO__PROTOCOL": "https",
+        "SERVICE__APPTWO__HOST": "localhost",
+        "SERVICE__APPTWO__PORT": "5003"
+      }
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "AppOne": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "weatherforecast",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+
+        "SERVICE__APPTWO__PROTOCOL": "https",
+        "SERVICE__APPTWO__HOST": "localhost",
+        "SERVICE__APPTWO__PORT": "5003"
       }
     }
   }
