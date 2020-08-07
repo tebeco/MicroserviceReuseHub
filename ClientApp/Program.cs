@@ -17,9 +17,6 @@ namespace ClientApp
                 {
                     services.AddAppOne();
                     services.AddHostedService<WorkerHubOne>();
-
-                    services.AddAppTwo();
-                    services.AddHostedService<WorkerHubTwo>();
                 });
     }
 }
