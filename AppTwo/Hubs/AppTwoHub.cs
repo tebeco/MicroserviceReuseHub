@@ -10,12 +10,10 @@ namespace AppTwo.Hubs
     public class AppTwoHub : Hub
     {
         private readonly ILogger<AppTwoHub> _logger;
-        private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
-        public AppTwoHub(ILogger<AppTwoHub> logger, IHostApplicationLifetime hostApplicationLifetime)
+        public AppTwoHub(ILogger<AppTwoHub> logger)
         {
             _logger = logger;
-            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
         public override Task OnConnectedAsync()
@@ -24,17 +22,16 @@ namespace AppTwo.Hubs
             return Task.CompletedTask;
         }
 
-
         public override Task OnDisconnectedAsync(Exception exception)
         {
             _logger.LogInformation("+++++++++++++ CLIENT LEFT");
             return Task.CompletedTask;
         }
 
-        public async Task DoBar()
+        /*/
+        public IAsyncEnumerable<int> DuplexTwo()
         {
-            _logger.LogInformation("Doing 'Bar'");
-            await Clients.All.SendAsync("Bar");
+            return AsyncStream.Generatestream(100);
         }
 
         public IAsyncEnumerable<int> Kix(IAsyncEnumerable<int> stream)

@@ -12,19 +12,17 @@ namespace AppOne.Hubs
     {
         private readonly IAppTwoClient _appTwoClient;
         private readonly ILogger<AppOneHub> _logger;
-        private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
-        public AppOneHub(IAppTwoClient appTwoClient, ILogger<AppOneHub> logger, IHostApplicationLifetime hostApplicationLifetime)
+        public AppOneHub(IAppTwoClient appTwoClient, ILogger<AppOneHub> logger)
         {
             _appTwoClient = appTwoClient;
             _logger = logger;
-            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
-        public override async Task OnConnectedAsync()
+        public override Task OnConnectedAsync()
         {
             _logger.LogInformation("+++++++++++++ CLIENT JOIN");
-            await _appTwoClient.DoBarAsync();
+            return Task.CompletedTask;
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
@@ -39,13 +37,6 @@ namespace AppOne.Hubs
             await Clients.All.SendAsync("DoingFoo");
             return _appTwoClient.StreamKixAsync(stream);
 
-            //async IAsyncEnumerable<int> internalIterate(IAsyncEnumerable<int> stream)
-            //{
-            //    await foreach (var i in stream)
-            //    {
-            //        yield return i;
-            //    }
-            //}
         }
     }
 }
