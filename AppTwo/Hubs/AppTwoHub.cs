@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,19 +33,11 @@ namespace AppTwo.Hubs
         {
             return AsyncStream.Generatestream(100);
         }
-
-        public IAsyncEnumerable<int> Kix(IAsyncEnumerable<int> stream)
+        /*/
+        public IAsyncEnumerable<int> DuplexTwo(IAsyncEnumerable<int> incommingStream)
         {
-            return EnumerateStreamBack(stream);
+            return AsyncStream.EnumerateBackStream(incommingStream, 10, _logger);
         }
-
-        private async IAsyncEnumerable<int> EnumerateStreamBack(IAsyncEnumerable<int> stream)
-        {
-            await foreach (var item in stream)
-            {
-                _logger.LogInformation("kix : {i}", item);
-                yield return item;
-            }
-        }
+        //*/
     }
 }
