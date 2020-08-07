@@ -29,8 +29,11 @@ namespace ClientApp
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                var stream = _appOneClient.StartDuplexOneAsync(AsyncStream.Generatestream(1));
-                await AsyncStream.EnumerateStream(stream, _logger);
+                //var stream = _appOneClient.StartDuplexOneAsync(AsyncStream.GenerateStream(1));
+                //await AsyncStream.EnumerateStream(stream, _logger);
+
+                var responseChannel = await _appOneClient.StreamDuplexOneChannelAsync(AsyncStream.GenerateChannelReader(1));
+                await AsyncStream.EnumerateChannel(responseChannel, _logger);
 
                 await Task.Delay(4000);
             }

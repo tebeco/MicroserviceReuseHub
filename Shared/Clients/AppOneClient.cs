@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Channels;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +24,11 @@ namespace Shared.Clients
             _logger.LogInformation("Calling DuplexOne");
 
             return HubConnection.StreamAsync<int>("DuplexOne", stream);
+        }
+
+        public async Task<ChannelReader<int>> StreamDuplexOneChannelAsync(ChannelReader<int> channel)
+        {
+            return await HubConnection.StreamAsChannelAsync<int>("DuplexOneChannel", channel);
         }
     }
 }

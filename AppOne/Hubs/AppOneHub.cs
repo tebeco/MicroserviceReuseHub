@@ -4,6 +4,7 @@ using Shared;
 using Shared.Clients;
 using System;
 using System.Collections.Generic;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace AppOne.Hubs
@@ -36,6 +37,14 @@ namespace AppOne.Hubs
             _logger.LogInformation("Doing 'DuplexOne'");
 
             return AsyncStream.EnumerateBackStream(_appTwoClient.StreamDuplexTwo(stream), _logger);
+        }
+
+        public async Task<ChannelReader<int>> DuplexOneChannel(ChannelReader<int> requestChannel)
+        {
+            var responseChannel = Channel.CreateUnbounded<int>();
+            _ = AsyncStream.EnumerateBackChannel(requestChannel, responseChannel.Writer, _logger);
+
+            return await _appTwoClient.StreamDuplexTwoChannel(responseChannel.Reader);
         }
     }
 }

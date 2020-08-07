@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Shared;
 using System;
 using System.Collections.Generic;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace AppTwo.Hubs
@@ -36,8 +37,16 @@ namespace AppTwo.Hubs
         /*/
         public IAsyncEnumerable<int> DuplexTwo(IAsyncEnumerable<int> incommingStream)
         {
-            return AsyncStream.EnumerateBackStream(incommingStream, 10, _logger);
+            return AsyncStream.EnumerateBackStream(incommingStream, _logger);
         }
         //*/
+
+        public ChannelReader<int> DuplexTwoChannel(ChannelReader<int> requestChannel)
+        {
+            var responseChannel = Channel.CreateUnbounded<int>();
+            AsyncStream.EnumerateBackChannel(requestChannel, responseChannel.Writer, _logger);
+
+            return responseChannel.Reader;
+        }
     }
 }
