@@ -15,31 +15,25 @@ namespace Shared
         {
             _hubUri = hubUri;
             _hostApplicationLifetime = hostApplicationLifetime;
+
+            HubConnection = new HubConnectionBuilder()
+                .WithUrl(_hubUri)
+                .WithAutomaticReconnect()
+                .Build();
         }
 
         public HubConnection HubConnection { get; private set; }
 
         public async Task StartAsync()
         {
-            HubConnection = new HubConnectionBuilder()
-                .WithUrl(_hubUri)
-                .WithAutomaticReconnect()
-                .Build();
-
             try
             {
-                if (HubConnection.State == HubConnectionState.Connected)
-                    return;
-
                 await HubConnection.StartAsync();
 
-                if (_hostApplicationLifetime.ApplicationStopping.IsCancellationRequested || _hostApplicationLifetime.ApplicationStopped.IsCancellationRequested)
-                    _hubConnectionConnected.SetCanceled();
-                else
-                {
-                    if (!_hubConnectionConnected.Task.IsCompleted)
-                        _hubConnectionConnected.SetResult(0);
-                }
+                _hostApplicationLifetime.ApplicationStopping.ThrowIfCancellationRequested();
+                _hostApplicationLifetime.ApplicationStopped.ThrowIfCancellationRequested();
+
+                _hubConnectionConnected.SetResult(0);
             }
             catch (Exception ex)
             {

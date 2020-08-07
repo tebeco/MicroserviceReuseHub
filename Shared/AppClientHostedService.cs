@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 namespace Shared
 {
     public class AppClientHostedService<TClient> : BackgroundService
-        where TClient: IAppClient
+        where TClient : IAppClient
     {
         private readonly TClient _appClient;
 
