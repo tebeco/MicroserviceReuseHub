@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Shared;
 using Shared.Clients;
 using System;
 using System.Collections.Generic;
@@ -10,8 +10,8 @@ namespace AppOne.Hubs
 {
     public class AppOneHub : Hub
     {
-        private readonly IAppTwoClient _appTwoClient;
         private readonly ILogger<AppOneHub> _logger;
+        private readonly IAppTwoClient _appTwoClient;
 
         public AppOneHub(IAppTwoClient appTwoClient, ILogger<AppOneHub> logger)
         {
@@ -31,12 +31,11 @@ namespace AppOne.Hubs
             return Task.CompletedTask;
         }
 
-        public async Task<IAsyncEnumerable<int>> DoFoo(IAsyncEnumerable<int> stream)
+        public IAsyncEnumerable<int> DuplexOne(IAsyncEnumerable<int> stream)
         {
-            _logger.LogInformation("Doing 'Foo'");
-            await Clients.All.SendAsync("DoingFoo");
-            return _appTwoClient.StreamKixAsync(stream);
+            _logger.LogInformation("Doing 'DuplexOne'");
 
+            return AsyncStream.EnumerateBackStream(_appTwoClient.StreamDuplexTwo(stream), _logger);
         }
     }
 }
