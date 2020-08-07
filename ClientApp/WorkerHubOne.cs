@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Shared;
 using Shared.Clients;
 
 namespace ClientApp
@@ -21,16 +21,18 @@ namespace ClientApp
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            //make sure this does not block startup as it forces the continuation to be scheduled on ANY OTHER threadpool worker this SynchronizationContext is null => returns imediatly
             await Task.Yield();
 
+            //Waiting for connection to be done
             await _appOneClient.OnConnectedAsync();
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(4000);
-            }
-        }
+                var stream = _appOneClient.StartDuplexOneAsync(AsyncStream.Generatestream(1));
+                await AsyncStream.EnumerateStream(stream, _logger);
 
+                await Task.Delay(4000);
             }
         }
     }
