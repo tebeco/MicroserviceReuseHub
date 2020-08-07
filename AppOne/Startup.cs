@@ -24,7 +24,6 @@ namespace AppOne
                     .AddAzureSignalR()
                     ;
 
-            services.AddHostedService<AppTwoClientBackgroundService>();
             services.AddAppTwo();
         }
 
