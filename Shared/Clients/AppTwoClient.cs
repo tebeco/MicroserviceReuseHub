@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -14,14 +12,9 @@ namespace Shared.Clients
             : base(new Uri(configuration.GetServiceUri("apptwo"), "/AppTwoHub"), hostApplicationLifetime)
         { }
 
-        public async Task DoBarAsync()
+        public IAsyncEnumerable<int> StreamDuplexTwo(IAsyncEnumerable<int> stream)
         {
-            await HubConnection.SendAsync("DoBar");
-        }
-
-        public IAsyncEnumerable<int> StreamKixAsync(IAsyncEnumerable<int> dataStream)
-        {
-            return HubConnection.StreamAsync<int>("Kix", dataStream);
+            return HubConnection.StreamAsync<int>("DuplexTwo", stream);
         }
     }
 }

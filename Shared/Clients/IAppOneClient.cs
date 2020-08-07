@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Shared.Clients
 {
     public interface IAppOneClient : IAppClient
     {
-        IAsyncEnumerable<int> DoFooAsync(IAsyncEnumerable<int> dataStream);
+        IAsyncEnumerable<int> StartDuplexOneAsync(IAsyncEnumerable<int> stream);
     }
 }
